@@ -1,12 +1,14 @@
 package com.controlador;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
+
 import com.dao.CitaDAO;
 import com.dao.MedicoDAO;
 import com.dao.PacienteDAO;
@@ -34,22 +36,23 @@ public class controlador extends HttpServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, java.text.ParseException {
+            throws ServletException, IOException {
+               // JOptionPane.showMessageDialog(null, "usuario: ");
+        // Al llamar al servlet este es el primer metodo que se ejecuta(processRequest)
+       // int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+        //Se toma la variable que se envió por url
         String accion = request.getParameter("accion");
-        //analizar bien
-        String perfil = request.getSession().getAttribute("perfil") != null ? request.getSession().getAttribute("perfil").toString() : "";
-
+        //se determina que tipo de perfil es el usuario (paciente o medico)
+        //String perfil = request.getParameter("perfil");
+        //se buscan las citas del usuario
+        //List<Cita> citas = perfil.equals("paciente") ? cdao.getCitasDePaciente(idUsuario) : cdao.getCitasDeMedico(idUsuario);
+        //se crea un atributo del metodo request para poder mostrar variables en el front
+        //request.setAttribute("citas", citas);
         switch (accion) {
             case "homePaciente":
-                List<Cita> citasP = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
-                request.setAttribute("citas", citasP);
+                List<Cita> citas = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
+                request.setAttribute("citas", citas);
                 request.getRequestDispatcher("Vistas/vistaPac.jsp").forward(request, response);
-                break;
-
-            case "homeMedico":
-                List<Cita> citasM = cdao.getCitasDeMedico(Medico.class.cast(request.getSession().getAttribute("sesion")).getIdMedico());
-                request.setAttribute("citas", citasM);
-                request.getRequestDispatcher("Vistas/visMed.jsp").forward(request, response);
                 break;
 
             case "login":
@@ -58,11 +61,9 @@ public class controlador extends HttpServlet {
                 Object obj = udao.login(correo, contrasena, request);
                 if (obj != null) {
                     if (obj instanceof Paciente) {
-                        request.getSession().setAttribute("perfil", "Paciente");
                         request.getRequestDispatcher("controlador?accion=homePaciente").forward(request, response);
                     } else {
-                        request.getSession().setAttribute("perfil", "Medico");
-                        request.getRequestDispatcher("controlador?accion=homeMedico").forward(request, response);
+                        request.getRequestDispatcher("Vistas/visMed.jsp").forward(request, response);
                     }
                 } else {
                     request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
@@ -70,76 +71,8 @@ public class controlador extends HttpServlet {
                 break;
 
             case "logout":
-                request.removeAttribute("citas");
-                request.getSession().removeAttribute("perfil");
                 request.getSession().removeAttribute("sesion");
                 request.getSession().invalidate();
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-                break;
-
-            case "registrar":
-                perfil = request.getParameter("perfil");
-                boolean validacion;
-                if (perfil == "Paciente") {
-                    Paciente p = new Paciente();
-                    p.setNombreCompleto(request.getParameter("nombreCompleto"));
-                    p.setTipoDocumento(request.getParameter("tipoDocumento"));
-                    p.setNumeroDocumento(request.getParameter("numeroDocumento"));
-                    p.setTelefono(request.getParameter("telefono"));
-                    p.setCorreo(request.getParameter("correo"));
-                    p.setContrasena(request.getParameter("contrasena"));
-                    validacion = udao.registrarPaciente(p);
-                    if (validacion) {
-                        request.getSession().setAttribute("sesion", p);
-                        request.getSession().setAttribute("perfil", "Paciente");
-                        request.getRequestDispatcher("controlador?accion=homePaciente").forward(request, response);
-                    } else {
-                        request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
-                    }
-
-                } else {
-                    Medico m = new Medico();
-                    m.setNombreCompleto(request.getParameter("nombreCompleto"));
-                    m.setEspecialidad(request.getParameter("especialidad"));
-                    m.setSede(request.getParameter("sede"));
-                    m.setCorreo(request.getParameter("correo"));
-                    m.setContrasena(request.getParameter("contrasena"));
-                    validacion = udao.registrarMedico(m);
-                    if (validacion) {
-                        request.getSession().setAttribute("sesion", m);
-                        request.getSession().setAttribute("perfil", "Medico");
-                        request.getRequestDispatcher("controlador?accion=homeMedico").forward(request, response);
-                    } else {
-                        request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
-                    }
-                }
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-                break;
-
-            case "editarCita":
-                Cita c = new Cita();
-                c.setIdCita(Integer.parseInt(request.getParameter("idCita")));
-                c.setNombreCompleto(request.getParameter("nombreCompleto"));
-                c.setIdentificacion(request.getParameter("identificacion"));
-                c.setSede(request.getParameter("sede"));
-                String fecha = request.getParameter("fecha");
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
-                c.setFecha(formato.parse(fecha));
-                Paciente p = new Paciente();
-                Medico m = new Medico();
-                p.setIdPaciente(Integer.parseInt(request.getParameter("idPaciente")));
-                m.setIdMedico(Integer.parseInt(request.getParameter("idMedico")));
-                c.setPaciente(p);
-                c.setMedico(m);
-                cdao.editarCita(c);
-                List<Cita> citas;
-                if (perfil == "Paciente") {
-                    citas = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
-                } else {
-                    citas = cdao.getCitasDeMedico(Medico.class.cast(request.getSession().getAttribute("sesion")).getIdMedico());
-                }
-                request.setAttribute("citas", citas);
-                //colocar la direccion a donde dirigir despues de
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
             
@@ -156,14 +89,9 @@ public class controlador extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -174,14 +102,9 @@ public class controlador extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -189,7 +112,6 @@ public class controlador extends HttpServlet {
      *
      * @return a String containing servlet description
      */
-    @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
