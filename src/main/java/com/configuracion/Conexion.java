@@ -17,9 +17,9 @@ import java.sql.DriverManager;
 public class Conexion {
     
     Connection con;
-    String url = "jdbc:mysql://localhost:3306/citifast";
+    String url = "jdbc:mysql://localhost:3306/citafast";
     String user = "root";
-    String pass = "";
+    String pass = "12345";
 
     public Connection getConexion() {
         try {
