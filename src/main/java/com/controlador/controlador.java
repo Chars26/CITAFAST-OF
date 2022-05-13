@@ -50,9 +50,15 @@ public class controlador extends HttpServlet {
         //request.setAttribute("citas", citas);
         switch (accion) {
             case "homePaciente":
-                List<Cita> citas = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
-                request.setAttribute("citas", citas);
+                List<Cita> citasP = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
+                request.setAttribute("citas", citasP);
                 request.getRequestDispatcher("Vistas/vistaPac.jsp").forward(request, response);
+                break;
+
+            case "homeMedico":
+                List<Cita> citasM = cdao.getCitasDeMedico(Medico.class.cast(request.getSession().getAttribute("sesion")).getIdMedico());
+                request.setAttribute("citas", citasM);
+                request.getRequestDispatcher("Vistas/visMed.jsp").forward(request, response);
                 break;
 
             case "login":
@@ -63,7 +69,7 @@ public class controlador extends HttpServlet {
                     if (obj instanceof Paciente) {
                         request.getRequestDispatcher("controlador?accion=homePaciente").forward(request, response);
                     } else {
-                        request.getRequestDispatcher("Vistas/visMed.jsp").forward(request, response);
+                        request.getRequestDispatcher("controlador?accion=homeMedico").forward(request, response);
                     }
                 } else {
                     request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
@@ -71,8 +77,47 @@ public class controlador extends HttpServlet {
                 break;
 
             case "logout":
+                request.removeAttribute("citas");
                 request.getSession().removeAttribute("sesion");
                 request.getSession().invalidate();
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+                break;
+
+            case "registrar":
+                String perfil = request.getParameter("perfil");
+                request.removeAttribute("citas");
+                boolean validacion;
+                if (perfil == "Paciente") {
+                    Paciente p = new Paciente();
+                    p.setNombreCompleto(request.getParameter("nombreCompleto"));
+                    p.setTipoDocumento(request.getParameter("tipoDocumento"));
+                    p.setNumeroDocumento(request.getParameter("numeroDocumento"));
+                    p.setTelefono(request.getParameter("telefono"));
+                    p.setCorreo(request.getParameter("correo"));
+                    p.setContrasena(request.getParameter("contrasena"));
+                    validacion = udao.registrarPaciente(p);
+                    if (validacion) {
+                        request.getSession().setAttribute("sesion", p);
+                        request.getRequestDispatcher("controlador?accion=homePaciente").forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
+                    }
+
+                } else {
+                    Medico m = new Medico();
+                    m.setNombreCompleto(request.getParameter("nombreCompleto"));
+                    m.setEspecialidad(request.getParameter("especialidad"));
+                    m.setSede(request.getParameter("sede"));
+                    m.setCorreo(request.getParameter("correo"));
+                    m.setContrasena(request.getParameter("contrasena"));
+                    validacion = udao.registrarMedico(m);
+                    if (validacion) {
+                        request.getSession().setAttribute("sesion", m);
+                        request.getRequestDispatcher("controlador?accion=homeMedico").forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
+                    }
+                }
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
             

@@ -68,4 +68,55 @@ public class UsuarioDAO {
 
         return null;
     }
+
+    public boolean registrarMedico(Medico m) {
+        try {
+                String sql = "insert into medico(Nombre Completo, Especialidad, Sede, Correo, Contraseña) values(?,?,?,?,?)";
+                con = conexion.getConexion();
+                preparedStatement = con.prepareStatement(sql);
+                preparedStatement.setString(1, m.getNombreCompleto());
+                preparedStatement.setString(2, m.getEspecialidad());
+                preparedStatement.setString(3, m.getSede());
+                preparedStatement.setString(4, m.getCorreo());
+                preparedStatement.setString(5, m.getContrasena());
+                preparedStatement.executeUpdate();
+                return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return false;
+    }
+
+    public boolean registrarPaciente(Paciente p) {
+        try {
+                String sql = "insert into paciente(Nombre Completo, Tipo Documento, Numero Documento, Telefono, Correo, Contraseña) values(?,?,?,?,?,?)";
+                con = conexion.getConexion();
+                preparedStatement = con.prepareStatement(sql);
+                preparedStatement.setString(1, p.getNombreCompleto());
+                preparedStatement.setString(2, p.getTipoDocumento());
+                preparedStatement.setString(3, p.getNumeroDocumento());
+                preparedStatement.setString(4, p.getTelefono());
+                preparedStatement.setString(5, p.getCorreo());
+                preparedStatement.setString(6, p.getContrasena());
+                preparedStatement.executeUpdate();
+                return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return false;
+    }
 }
