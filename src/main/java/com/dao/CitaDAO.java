@@ -1,6 +1,7 @@
 package com.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -112,5 +113,29 @@ public class CitaDAO {
         }
 
         return citas;
+    }
+    
+
+    public void editarCita(Cita c) {
+        try {
+            String sql = "update cita set Nombre Completo=?, Identificacion=?, Fecha=?, Sede=?, idPaciente=?, idMedico=? where idCita="+c.getIdCita();
+            con = conexion.getConexion();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, c.getNombreCompleto());
+            preparedStatement.setString(2, c.getIdentificacion());
+            preparedStatement.setDate(3, (Date) c.getFecha());
+            preparedStatement.setString(4, c.getSede());
+            preparedStatement.setString(5, c.getPaciente().getIdPaciente()+"");
+            preparedStatement.setString(6, c.getMedico().getIdMedico()+"");
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

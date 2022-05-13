@@ -1,14 +1,12 @@
 package com.controlador;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
-
 import com.dao.CitaDAO;
 import com.dao.MedicoDAO;
 import com.dao.PacienteDAO;
@@ -36,18 +34,11 @@ public class controlador extends HttpServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-               // JOptionPane.showMessageDialog(null, "usuario: ");
-        // Al llamar al servlet este es el primer metodo que se ejecuta(processRequest)
-       // int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
-        //Se toma la variable que se envió por url
+            throws ServletException, IOException, java.text.ParseException {
         String accion = request.getParameter("accion");
-        //se determina que tipo de perfil es el usuario (paciente o medico)
-        //String perfil = request.getParameter("perfil");
-        //se buscan las citas del usuario
-        //List<Cita> citas = perfil.equals("paciente") ? cdao.getCitasDePaciente(idUsuario) : cdao.getCitasDeMedico(idUsuario);
-        //se crea un atributo del metodo request para poder mostrar variables en el front
-        //request.setAttribute("citas", citas);
+        //analizar bien
+        String perfil = request.getSession().getAttribute("perfil") != null ? request.getSession().getAttribute("perfil").toString() : "";
+
         switch (accion) {
             case "homePaciente":
                 List<Cita> citasP = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
@@ -67,8 +58,10 @@ public class controlador extends HttpServlet {
                 Object obj = udao.login(correo, contrasena, request);
                 if (obj != null) {
                     if (obj instanceof Paciente) {
+                        request.getSession().setAttribute("perfil", "Paciente");
                         request.getRequestDispatcher("controlador?accion=homePaciente").forward(request, response);
                     } else {
+                        request.getSession().setAttribute("perfil", "Medico");
                         request.getRequestDispatcher("controlador?accion=homeMedico").forward(request, response);
                     }
                 } else {
@@ -78,14 +71,14 @@ public class controlador extends HttpServlet {
 
             case "logout":
                 request.removeAttribute("citas");
+                request.getSession().removeAttribute("perfil");
                 request.getSession().removeAttribute("sesion");
                 request.getSession().invalidate();
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
 
             case "registrar":
-                String perfil = request.getParameter("perfil");
-                request.removeAttribute("citas");
+                perfil = request.getParameter("perfil");
                 boolean validacion;
                 if (perfil == "Paciente") {
                     Paciente p = new Paciente();
@@ -98,6 +91,7 @@ public class controlador extends HttpServlet {
                     validacion = udao.registrarPaciente(p);
                     if (validacion) {
                         request.getSession().setAttribute("sesion", p);
+                        request.getSession().setAttribute("perfil", "Paciente");
                         request.getRequestDispatcher("controlador?accion=homePaciente").forward(request, response);
                     } else {
                         request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
@@ -113,11 +107,39 @@ public class controlador extends HttpServlet {
                     validacion = udao.registrarMedico(m);
                     if (validacion) {
                         request.getSession().setAttribute("sesion", m);
+                        request.getSession().setAttribute("perfil", "Medico");
                         request.getRequestDispatcher("controlador?accion=homeMedico").forward(request, response);
                     } else {
                         request.getRequestDispatcher("Vistas/registro.jsp").forward(request, response);
                     }
                 }
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+                break;
+
+            case "editarCita":
+                Cita c = new Cita();
+                c.setIdCita(Integer.parseInt(request.getParameter("idCita")));
+                c.setNombreCompleto(request.getParameter("nombreCompleto"));
+                c.setIdentificacion(request.getParameter("identificacion"));
+                c.setSede(request.getParameter("sede"));
+                String fecha = request.getParameter("fecha");
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+                c.setFecha(formato.parse(fecha));
+                Paciente p = new Paciente();
+                Medico m = new Medico();
+                p.setIdPaciente(Integer.parseInt(request.getParameter("idPaciente")));
+                m.setIdMedico(Integer.parseInt(request.getParameter("idMedico")));
+                c.setPaciente(p);
+                c.setMedico(m);
+                cdao.editarCita(c);
+                List<Cita> citas;
+                if (perfil == "Paciente") {
+                    citas = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
+                } else {
+                    citas = cdao.getCitasDeMedico(Medico.class.cast(request.getSession().getAttribute("sesion")).getIdMedico());
+                }
+                request.setAttribute("citas", citas);
+                //colocar la direccion a donde dirigir despues de
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
             
@@ -137,7 +159,11 @@ public class controlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -151,7 +177,11 @@ public class controlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
