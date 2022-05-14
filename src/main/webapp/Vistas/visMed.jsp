@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,11 +33,11 @@
                     <div class="row mt-2">                                 
                         <div class="col-md-6">
                             <label class="labels">Nombre</label>
-                            <input type="text" class="form-control" placeholder="Nombre" disabled="true">
+                            <input type="text" class="form-control" placeholder="Nombre" disabled="true" value="${sesion.getNombreCompleto()}">
                         </div>                                 
                         <div class="col-md-6">
                             <label class="labels">Correo</label>
-                            <input type="text" class="form-control" placeholder="Correo" disabled="true">
+                            <input type="text" class="form-control" placeholder="Correo" disabled="true" value="${sesion.getCorreo()}">
                         </div>                             </div>
                                     
                 </div>
@@ -100,7 +101,15 @@
             
           
               </div>
-
+              <c:forEach var="c" items="${citas}">
+                <ol>
+                <li>${c.getNombreCompleto()}</li>
+                <li>${c.getSede()}</li>
+                <li>${c.getPaciente().getNombreCompleto()}</li>
+                <li>${c.getMedico().getNombreCompleto()}</li>
+              </ol>
+                <hr>
+              </c:forEach>
 <br><br>
 <div class="container">
 
