@@ -35,17 +35,25 @@ public class controlador extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, java.text.ParseException {
+        List<Cita> citas;
+        Cita c;
+        Paciente p;
+        Medico m;
         String accion = request.getParameter("accion");
         //analizar bien
         String perfil = request.getSession().getAttribute("perfil") != null ? request.getSession().getAttribute("perfil").toString() : "";
 
         switch (accion) {
+            //InfoCita()
+            //ListarCitas()
             case "homePaciente":
                 List<Cita> citasP = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
                 request.setAttribute("citas", citasP);
                 request.getRequestDispatcher("Vistas/vistaPac.jsp").forward(request, response);
                 break;
 
+            //** InfoCita()
+            //** ListarCitas()
             case "homeMedico":
                 List<Cita> citasM = cdao.getCitasDeMedico(Medico.class.cast(request.getSession().getAttribute("sesion")).getIdMedico());
                 request.setAttribute("citas", citasM);
@@ -81,7 +89,7 @@ public class controlador extends HttpServlet {
                 perfil = request.getParameter("perfil");
                 boolean validacion;
                 if (perfil == "Paciente") {
-                    Paciente p = new Paciente();
+                    p = new Paciente();
                     p.setNombreCompleto(request.getParameter("nombreCompleto"));
                     p.setTipoDocumento(request.getParameter("tipoDocumento"));
                     p.setNumeroDocumento(request.getParameter("numeroDocumento"));
@@ -98,7 +106,7 @@ public class controlador extends HttpServlet {
                     }
 
                 } else {
-                    Medico m = new Medico();
+                    m = new Medico();
                     m.setNombreCompleto(request.getParameter("nombreCompleto"));
                     m.setEspecialidad(request.getParameter("especialidad"));
                     m.setSede(request.getParameter("sede"));
@@ -116,29 +124,62 @@ public class controlador extends HttpServlet {
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
 
-            case "editarCita":
-                Cita c = new Cita();
-                c.setIdCita(Integer.parseInt(request.getParameter("idCita")));
+            //** PedirCita()
+            case "agregarCita":
+                c = new Cita();
                 c.setNombreCompleto(request.getParameter("nombreCompleto"));
                 c.setIdentificacion(request.getParameter("identificacion"));
                 c.setSede(request.getParameter("sede"));
                 String fecha = request.getParameter("fecha");
                 SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
                 c.setFecha(formato.parse(fecha));
-                Paciente p = new Paciente();
-                Medico m = new Medico();
+                p = new Paciente();
+                m = new Medico();
                 p.setIdPaciente(Integer.parseInt(request.getParameter("idPaciente")));
                 m.setIdMedico(Integer.parseInt(request.getParameter("idMedico")));
                 c.setPaciente(p);
                 c.setMedico(m);
-                cdao.editarCita(c);
-                List<Cita> citas;
+                cdao.agregarCita(c);
                 if (perfil == "Paciente") {
                     citas = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
                 } else {
                     citas = cdao.getCitasDeMedico(Medico.class.cast(request.getSession().getAttribute("sesion")).getIdMedico());
                 }
                 request.setAttribute("citas", citas);
+                //colocar la direccion a donde dirigir despues de
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+                break;
+
+            //** EstadoCita()
+            //** CambiarEstadoCita()
+            case "editarCita":
+                c = new Cita();
+                c.setIdCita(Integer.parseInt(request.getParameter("idCita")));
+                c.setNombreCompleto(request.getParameter("nombreCompleto"));
+                c.setIdentificacion(request.getParameter("identificacion"));
+                c.setSede(request.getParameter("sede"));
+                String fecha2 = request.getParameter("fecha");
+                SimpleDateFormat formato2 = new SimpleDateFormat("dd/MM/yyyy"); 
+                c.setFecha(formato2.parse(fecha2));
+                p = new Paciente();
+                m = new Medico();
+                p.setIdPaciente(Integer.parseInt(request.getParameter("idPaciente")));
+                m.setIdMedico(Integer.parseInt(request.getParameter("idMedico")));
+                c.setPaciente(p);
+                c.setMedico(m);
+                cdao.editarCita(c);
+                if (perfil == "Paciente") {
+                    citas = cdao.getCitasDePaciente(Paciente.class.cast(request.getSession().getAttribute("sesion")).getIdPaciente());
+                } else {
+                    citas = cdao.getCitasDeMedico(Medico.class.cast(request.getSession().getAttribute("sesion")).getIdMedico());
+                }
+                request.setAttribute("citas", citas);
+                //colocar la direccion a donde dirigir despues de
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+                break;
+
+            case "eliminarCita":
+                cdao.eliminarCita(Integer.parseInt(request.getParameter("idCita")));
                 //colocar la direccion a donde dirigir despues de
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;

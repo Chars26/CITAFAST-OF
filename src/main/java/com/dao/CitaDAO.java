@@ -116,6 +116,29 @@ public class CitaDAO {
     }
     
 
+    public void agregarCita(Cita c) {
+        try {
+            String sql = "insert into cita(Nombre Completo, Identificacion, Fecha, Sede, idPaciente, idMedico) values(?,?,?,?,?,?)";
+            con = conexion.getConexion();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, c.getNombreCompleto());
+            preparedStatement.setString(2, c.getIdentificacion());
+            preparedStatement.setDate(3, (Date) c.getFecha());
+            preparedStatement.setString(4, c.getSede());
+            preparedStatement.setString(5, c.getPaciente().getIdPaciente()+"");
+            preparedStatement.setString(6, c.getMedico().getIdMedico()+"");
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public void editarCita(Cita c) {
         try {
             String sql = "update cita set Nombre Completo=?, Identificacion=?, Fecha=?, Sede=?, idPaciente=?, idMedico=? where idCita="+c.getIdCita();
@@ -127,6 +150,23 @@ public class CitaDAO {
             preparedStatement.setString(4, c.getSede());
             preparedStatement.setString(5, c.getPaciente().getIdPaciente()+"");
             preparedStatement.setString(6, c.getMedico().getIdMedico()+"");
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void eliminarCita(int id) {
+        try {
+            String sql = "delete from cita where idCita="+id;
+            con = conexion.getConexion();
+            preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
