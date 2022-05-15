@@ -18,7 +18,7 @@ public class Cita {
     private Medico medico;
     private String nombreCompleto;
     private String identificacion;
-    private Date fecha;
+    private String fecha;
     private String sede;
     
     public Cita() {
@@ -64,11 +64,11 @@ public class Cita {
         this.identificacion = identificacion;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

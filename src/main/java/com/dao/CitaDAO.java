@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.configuracion.Conexion;
 import com.modelo.Cita;
+import com.modelo.Medico;
 
 public class CitaDAO {
     //creamos las variables para conectar la base de datos
@@ -34,7 +35,7 @@ public class CitaDAO {
                 c.setIdCita(rs.getInt(1));
                 c.setNombreCompleto(rs.getString(2));
                 c.setIdentificacion(rs.getString(3));
-                c.setFecha(rs.getDate(4));
+                c.setFecha(rs.getString(4));
                 c.setSede(rs.getString(5));
                 c.setPaciente(pdao.getPaciente(rs.getInt(6)));
                 c.setMedico(mdao.getMedico(rs.getInt(7)));
@@ -52,6 +53,8 @@ public class CitaDAO {
 
         return citas;
     }
+    
+    
 
     public List<Cita> getCitasDePaciente(int id) {
         List<Cita> citas = new ArrayList<>();
@@ -65,7 +68,7 @@ public class CitaDAO {
                 c.setIdCita(rs.getInt(1));
                 c.setNombreCompleto(rs.getString(2));
                 c.setIdentificacion(rs.getString(3));
-                c.setFecha(rs.getDate(4));
+                c.setFecha(rs.getString(4));
                 c.setSede(rs.getString(5));
                 c.setPaciente(pdao.getPaciente(rs.getInt(6)));
                 c.setMedico(mdao.getMedico(rs.getInt(7)));
@@ -96,7 +99,7 @@ public class CitaDAO {
                 c.setIdCita(rs.getInt(1));
                 c.setNombreCompleto(rs.getString(2));
                 c.setIdentificacion(rs.getString(3));
-                c.setFecha(rs.getDate(4));
+                c.setFecha(rs.getString(4));
                 c.setSede(rs.getString(5));
                 c.setPaciente(pdao.getPaciente(rs.getInt(6)));
                 c.setMedico(mdao.getMedico(rs.getInt(7)));
@@ -118,15 +121,15 @@ public class CitaDAO {
 
     public void agregarCita(Cita c) {
         try {
-            String sql = "insert into cita(Nombre Completo, Identificacion, Fecha, Sede, idPaciente, idMedico) values(?,?,?,?,?,?)";
+            String sql = "INSERT INTO `cita` (`Nombre Completo`, `Identificacion`, `Fecha`, `Sede`, `idPaciente`, `idMedico`) VALUES (?, ?, ?, ?, ?, ?)";
             con = conexion.getConexion();
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, c.getNombreCompleto());
             preparedStatement.setString(2, c.getIdentificacion());
-            preparedStatement.setDate(3, (Date) c.getFecha());
+            preparedStatement.setString(3,  c.getFecha());
             preparedStatement.setString(4, c.getSede());
-            preparedStatement.setString(5, c.getPaciente().getIdPaciente()+"");
-            preparedStatement.setString(6, c.getMedico().getIdMedico()+"");
+            preparedStatement.setInt(5, c.getPaciente().getIdPaciente());
+            preparedStatement.setInt(6, c.getMedico().getIdMedico());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -146,7 +149,7 @@ public class CitaDAO {
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, c.getNombreCompleto());
             preparedStatement.setString(2, c.getIdentificacion());
-            preparedStatement.setDate(3, (Date) c.getFecha());
+            preparedStatement.setString(3, c.getFecha());
             preparedStatement.setString(4, c.getSede());
             preparedStatement.setString(5, c.getPaciente().getIdPaciente()+"");
             preparedStatement.setString(6, c.getMedico().getIdMedico()+"");

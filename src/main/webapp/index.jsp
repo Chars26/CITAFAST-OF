@@ -60,7 +60,7 @@
             </li>
             
           </ul>
-          <a class="btn btn-primary" href="Vistas/solCita.jsp" role="button">Pide tu cita aqui</a>
+          
           
         </div>
       </div>
@@ -90,7 +90,7 @@
                     </div>
                   </div>
                   <div class="carousel-item">
-                    <img src="" class="d-block w-100" alt="...">
+                    <img src="https://previews.123rf.com/images/nexusplexus/nexusplexus1212/nexusplexus121203134/16905981-ilustraci%C3%B3n-con-el-fondo-m%C3%A9dico-que-tiene-latidos-del-coraz%C3%B3n-el-m%C3%A9dico-y-el-estetoscopio.jpg?fj=1" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                       <h5></h5>
                     </div>
