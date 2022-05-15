@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.configuracion.Conexion;
 import com.modelo.Cita;
+import com.modelo.Medico;
 
 public class CitaDAO {
     //creamos las variables para conectar la base de datos
@@ -52,6 +53,8 @@ public class CitaDAO {
 
         return citas;
     }
+    
+    
 
     public List<Cita> getCitasDePaciente(int id) {
         List<Cita> citas = new ArrayList<>();

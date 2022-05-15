@@ -60,7 +60,7 @@
             </li>
             
           </ul>
-          <a class="btn btn-primary" href="Vistas/solCita.jsp" role="button">Pide tu cita aqui</a>
+          
           
         </div>
       </div>

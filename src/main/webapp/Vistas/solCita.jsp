@@ -5,13 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="n" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Recuerden siempre que se vaya a redireccionar a alguna pagina colocar el ${pageContext.request.contextPath} para
         obtener la ruta relativa y que no vayan a suceder errores-->
-        <link rel="stylesheet" href="../estilos/estilos-registro.css ">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/estilos/estilos-registro.css ">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <title>Solicitar Cita</title>
@@ -23,7 +25,7 @@
         <div id="cabecera">
             <ul class="nav justify-content-end"> 
                 <li class="nav-item">
-                    <a id="letras" class="nav-link active" aria-current="page" href="../index.jsp" method="POST"">
+                    <a id="letras" class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/controlador?accion=homePaciente" method="POST"">
                         
                         Volver a perfil
                     </a>
@@ -53,14 +55,14 @@
                                         <!-- Text input-->
                                         <div class="form-group">
 
-
+                                        
                                         </div>
 
                                         <!-- Text input-->
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="product_name">Nombre Completo</label>  
                                             <div class="col-md-12">
-                                                <input id="nombre" name="nombrecompleto" placeholder="" class="form-control input-md" required="" type="text">
+                                                <input id="" name="nombreCompleto" value="${sesion.getNombreCompleto()}" disabled="true" class="form-control input-md" required="" type="text">                       
 
                                             </div>
                                         </div>
@@ -69,22 +71,12 @@
                                          <div class="form-group">
                                             <label class="col-md-4 control-label" for="product_name">Identificacion</label>  
                                             <div class="col-md-12">
-                                                <input id="nombre" name="nombrecompleto" placeholder="" class="form-control input-md" required="" type="text">
+                                                <input id="" name="identificacion" value="${sesion.getNumeroDocumento()}" disabled="true" class="form-control input-md" required="" type="text">
 
                                             </div>
                                         </div>
 
-                                        <!-- Text input-->
-                                        <div class="form-group">
-                                            <label class="col-md-5 control-label" for="product_name_fr">Correo</label>
-                                            <br>
-                                            <div class="col-md-12">
-                                                <input id="nombre" name="correo" placeholder="" class="form-control input-md" required="" type="text">
-
-                                            </div>
-                                        </div>
-
-    
+          
                                          <br>
                                         <div class="form-group">  
                                             <label class="col-md-4 control-label" for="available_quantity">Fecha</label>
@@ -96,36 +88,22 @@
                                             <br>
                                           <div class="form-group">
                                        
-
+                                              
                                             <select name="medico" class="form-select" aria-label="Default select example">
-                                                <br>
-                                                <option selected>Medico</option>  
-                                                <option value="" ></option>  
-                                                <option value="" ></option> 
-                                                <option value="" ></option> 
-                                                <option value="" ></option>
-                                                
+                                                 <option selected>Seleccione un Medico</option>
+                                                <c:forEach var="n" items="${medicos}">
+                                                     <option value="1">${n.getNombreCompleto()}</option>
+                                                 </c:forEach>  
+                                            
+                          
                                             </select>
                                               <br>
                                               
-                                        <!-- Text input-->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="available_quantity">Sede</label>  
-                                            <div class="col-md-12">
-                                                <input id="pegi" name="sede" placeholder="Santa Lucia" class="form-control input-md" required="" type="int">
-
-                                            </div>
-                                        </div>
+                                       
 
 
                                         <!-- Textarea -->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="product_description">Descripcion</label>
-                                            <div class="col-md-12">                     
-                                                <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
-                                            </div>
-                                        </div>
-
+                                    
 
 
 

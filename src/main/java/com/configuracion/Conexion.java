@@ -19,7 +19,7 @@ public class Conexion {
     Connection con;
     String url = "jdbc:mysql://localhost:3306/citifast";
     String user = "root";
-    String pass = "";
+    String pass = "12345";
 
     public Connection getConexion() {
         try {

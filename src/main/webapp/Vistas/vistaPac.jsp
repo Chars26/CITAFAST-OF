@@ -64,7 +64,7 @@
             </li>
             
           </ul>
-          <button class="btn btn-outline-primary"  type="button">Pide tu Cita Aqui</button>
+          <a class="btn btn-primary" href="${pageContext.request.contextPath}/controlador?accion=solicitarCita" role="button">Pide tu cita aqui</a>
           
         </div>
       </div>
