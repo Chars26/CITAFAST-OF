@@ -41,6 +41,7 @@
                         </div>                             </div>
                                     
                 </div>
+                       
                 <div id="containercar" >
                     <div class="card">
                         <div class="row">
@@ -50,17 +51,22 @@
                                         <div class="col">
                                             <h4><b>Agenda</b></h4>
                                         </div>
-                                        
-                                </div>
+                                      </div>
+                               
+                                 <c:forEach var="c" items="${citas}">   
                                 <div class="row border-top border-bottom">
                                     <div class="row main align-items-center">
-                                        <div class="col-2"><img class="img-fluid" src="https://i0.wp.com/hipertextual.com/wp-content/uploads/2021/05/GTA-5-1-scaled.jpg?fit=25"></div>
+                                        <div class="col-2"><img class="img-fluid" src="https://mejorconsalud.as.com/wp-content/uploads/2021/10/escritorio-consulta-medica-768x512.jpg"></div>
                                         <div class="col">
-                                            <div class="row text-muted">Game</div>
-                                            <div class="row text-muted">rockstar games</div>
-                                            <div class="row">Grand theft auto V</div>
-                                            
-                                        </div>
+                                            <div class="row text-muted">CITA </div>
+                                            <div class="row text-muted">Nombre del Paciente: ${c.getNombreCompleto()} </div>
+                                            <div class="row text-muted">Identificacion: ${c.getIdentificacion()} </div>
+                                            <div class="row text-muted">Fecha : ${c.getFecha()} </div>
+                                            <div class="row text-muted">Sede indicada: ${c.getMedico().getSede()} </div>
+                                             
+
+                                         </div>
+                                        
                                         <div class="col"></div>
                                         <div class="col"><select class="form-select" aria-label="Default select example">
                                             <option selected>Estado de cita</option>
@@ -71,45 +77,17 @@
                                           <button class="btn">Agendar</button></div>
                                     </div>
                                 </div>
-                               
-                                <div class="row border-top border-bottom">
-                                    <div class="row main align-items-center">
-                                        <div class="col-2"><img class="img-fluid" src="https://i0.wp.com/hipertextual.com/wp-content/uploads/2021/05/GTA-5-1-scaled.jpg?fit=25"></div>
-                                        <div class="col">
-                                            <div class="row text-muted">Game</div>
-                                            <div class="row text-muted">rockstar games</div>
-                                            <div class="row">Grand theft auto V</div>
-                                            
-                                        </div>
-                                        <div class="col"></div>
-                                        <div class="col"><select class="form-select" aria-label="Default select example">
-                                            <option selected>Estado de cita</option>
-                                            <option value="1">Asistido</option>
-                                            <option value="2">No Asistido</option>
-                                            <option value="3">En espera</option>
-                                          </select><button class="btn">Aceptar</button>
-                                          <button class="btn">Agendar</button></div>
-                                    </div>
-                                </div>
-                            </div>
+                                 </c:forEach>
                                 
-                            </div>
-                        </div>
-                    </div>
-         
+                                            
+                                       
          
             
           
               </div>
-              <c:forEach var="c" items="${citas}">
-                <ol>
-                <li>${c.getNombreCompleto()}</li>
-                <li>${c.getSede()}</li>
-                <li>${c.getPaciente().getNombreCompleto()}</li>
-                <li>${c.getMedico().getNombreCompleto()}</li>
-              </ol>
-                <hr>
-              </c:forEach>
+             
+             
+             
 <br><br>
 <div class="container">
 
