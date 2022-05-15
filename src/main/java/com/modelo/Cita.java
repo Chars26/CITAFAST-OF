@@ -19,7 +19,6 @@ public class Cita {
     private String nombreCompleto;
     private String identificacion;
     private String fecha;
-    private String sede;
     
     public Cita() {
     }
@@ -72,13 +71,6 @@ public class Cita {
         this.fecha = fecha;
     }
 
-    public String getSede() {
-        return sede;
-    }
-
-    public void setSede(String sede) {
-        this.sede = sede;
-    }
 
 
 }

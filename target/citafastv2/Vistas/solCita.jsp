@@ -76,7 +76,6 @@
 
                                             </div>
                                         </div>
-<input type="text" name="sede">
           
                                          <br>
                                         <div class="form-group">  

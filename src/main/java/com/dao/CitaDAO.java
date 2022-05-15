@@ -36,9 +36,9 @@ public class CitaDAO {
                 c.setNombreCompleto(rs.getString(2));
                 c.setIdentificacion(rs.getString(3));
                 c.setFecha(rs.getString(4));
-                c.setSede(rs.getString(5));
-                c.setPaciente(pdao.getPaciente(rs.getInt(6)));
-                c.setMedico(mdao.getMedico(rs.getInt(7)));
+//                c.setSede(rs.getString(5));
+                c.setPaciente(pdao.getPaciente(rs.getInt(5)));
+                c.setMedico(mdao.getMedico(rs.getInt(6)));
                 citas.add(c);
             }
         } catch (Exception e) {
@@ -69,9 +69,8 @@ public class CitaDAO {
                 c.setNombreCompleto(rs.getString(2));
                 c.setIdentificacion(rs.getString(3));
                 c.setFecha(rs.getString(4));
-                c.setSede(rs.getString(5));
-                c.setPaciente(pdao.getPaciente(rs.getInt(6)));
-                c.setMedico(mdao.getMedico(rs.getInt(7)));
+                c.setPaciente(pdao.getPaciente(rs.getInt(5)));
+                c.setMedico(mdao.getMedico(rs.getInt(6)));
                 citas.add(c);
             }
         } catch (Exception e) {
@@ -100,9 +99,8 @@ public class CitaDAO {
                 c.setNombreCompleto(rs.getString(2));
                 c.setIdentificacion(rs.getString(3));
                 c.setFecha(rs.getString(4));
-                c.setSede(rs.getString(5));
-                c.setPaciente(pdao.getPaciente(rs.getInt(6)));
-                c.setMedico(mdao.getMedico(rs.getInt(7)));
+                c.setPaciente(pdao.getPaciente(rs.getInt(5)));
+                c.setMedico(mdao.getMedico(rs.getInt(6)));
                 citas.add(c);
             }
         } catch (Exception e) {
@@ -121,15 +119,15 @@ public class CitaDAO {
 
     public void agregarCita(Cita c) {
         try {
-            String sql = "INSERT INTO `cita` (`Nombre Completo`, `Identificacion`, `Fecha`, `Sede`, `idPaciente`, `idMedico`) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `cita` (`Nombre Completo`, `Identificacion`, `Fecha`, `idPaciente`, `idMedico`) VALUES (?, ?, ?, ?, ?)";
             con = conexion.getConexion();
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, c.getNombreCompleto());
             preparedStatement.setString(2, c.getIdentificacion());
             preparedStatement.setString(3,  c.getFecha());
-            preparedStatement.setString(4, c.getSede());
-            preparedStatement.setInt(5, c.getPaciente().getIdPaciente());
-            preparedStatement.setInt(6, c.getMedico().getIdMedico());
+//            preparedStatement.setString(4, c.gets());
+            preparedStatement.setInt(4, c.getPaciente().getIdPaciente());
+            preparedStatement.setInt(5, c.getMedico().getIdMedico());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -144,15 +142,15 @@ public class CitaDAO {
 
     public void editarCita(Cita c) {
         try {
-            String sql = "update cita set Nombre Completo=?, Identificacion=?, Fecha=?, Sede=?, idPaciente=?, idMedico=? where idCita="+c.getIdCita();
+            String sql = "update cita set Nombre Completo=?, Identificacion=?, Fecha=?, idPaciente=?, idMedico=? where idCita="+c.getIdCita();
             con = conexion.getConexion();
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, c.getNombreCompleto());
             preparedStatement.setString(2, c.getIdentificacion());
             preparedStatement.setString(3, c.getFecha());
-            preparedStatement.setString(4, c.getSede());
-            preparedStatement.setString(5, c.getPaciente().getIdPaciente()+"");
-            preparedStatement.setString(6, c.getMedico().getIdMedico()+"");
+//            preparedStatement.setString(4, c.getSede());
+            preparedStatement.setString(4, c.getPaciente().getIdPaciente()+"");
+            preparedStatement.setString(5, c.getMedico().getIdMedico()+"");
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());

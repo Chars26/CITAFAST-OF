@@ -87,7 +87,7 @@ public class controlador extends HttpServlet {
                 break;
 
             case "registrar":
-                perfil = request.getParameter("perfil");
+                perfil = request.getParameter("Paciente");
                 boolean validacion;
                 if (perfil == "Paciente") {
                     p = new Paciente();
@@ -110,7 +110,7 @@ public class controlador extends HttpServlet {
                     m = new Medico();
                     m.setNombreCompleto(request.getParameter("nombreCompleto"));
                     m.setEspecialidad(request.getParameter("especialidad"));
-                    m.setSede(request.getParameter("sede"));
+//                    m.setSede(request.getParameter("sede"));
                     m.setCorreo(request.getParameter("correo"));
                     m.setContrasena(request.getParameter("contrasena"));
                     validacion = udao.registrarMedico(m);
@@ -132,7 +132,7 @@ public class controlador extends HttpServlet {
                 c = new Cita();
                 c.setNombreCompleto(request.getParameter("nombreCompleto"));
                 c.setIdentificacion(request.getParameter("identificacion"));
-                c.setSede(request.getParameter("sede"));
+//                c.setSede(request.getParameter("sede"));
                 c.setFecha(request.getParameter("fecha"));
                 //JOptionPane.showMessageDialog(null, request.getParameter("fecha"));
                 p = new Paciente();
@@ -149,7 +149,7 @@ public class controlador extends HttpServlet {
                 }
                 request.setAttribute("citas", citas);
                 //colocar la direccion a donde dirigir despues de
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.getRequestDispatcher("Vistas/vistaPac.jsp").forward(request, response);
                 break;
 
             //** EstadoCita()
@@ -158,7 +158,7 @@ public class controlador extends HttpServlet {
                 c = new Cita();
                 c.setNombreCompleto(request.getParameter("nombreCompleto"));
                 c.setIdentificacion(request.getParameter("identificacion"));
-                c.setSede(request.getParameter("sede"));
+//                c.setSede(request.getParameter("sede"));
                 c.setFecha(request.getParameter("fecha"));
                 //JOptionPane.showMessageDialog(null, request.getParameter("fecha"));
                 p = new Paciente();
