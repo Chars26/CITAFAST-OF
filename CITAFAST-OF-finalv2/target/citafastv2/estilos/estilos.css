@@ -1,0 +1,101 @@
+@import url("https://fonts.google.com/specimen/Alata#standard-styles");  
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+body{     
+    font-family: "Alata#standard-styles";  
+    height: auto;
+    background-color: hsl(0, 0%, 80%);
+    
+    
+    
+    background-attachment: fixed;
+}
+
+
+
+/*CABEZERA*/
+#letras {
+    color: #0a2050;
+}
+
+#letrasc {
+    color: #ffffff;
+}
+
+#letrasnav {
+    color: #0a2050;
+}
+
+#letraslogo{
+    color: #ffffff;
+}
+
+#letrasc:hover{
+    background-color: #0a2050;
+    border-radius: 0px 0px 15px 15px;
+}
+
+#cabecera{
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    background-color: #1543c0;
+    border-radius: 0px 0px 10px 10px;
+    margin: auto;
+    padding: auto;
+    
+}
+
+/*CONTENEDOR DE PAGINA*/
+
+.container{
+
+    height: auto;
+    width: auto;
+    position: relative;
+    bottom: -20px;
+    left: 0%;
+    margin: auto;
+    
+}
+
+
+
+/*CARRUSEL DE JUEGOS*/
+#carouselExampleCaptions{
+    
+    max-width: 980px;
+    box-shadow: #0f228d 5px 5px;
+    margin: auto;
+    padding: auto;
+    
+}
+
+#timage {
+    max-width: 400px; 
+    max-height: 350px;
+}
+
+#timage2 {
+    max-width: 400px; 
+    height: 267px;
+}
+
+
+
+/*PIE DE PAGINA*/
+#footer{
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    background-color: #1543c0;
+    border-radius: 0px 0px 10px 10px;
+    margin: auto;
+    padding: auto;
+}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 3/05/2022, 03:32:29 PM
+    Author     : santi
+*/
+

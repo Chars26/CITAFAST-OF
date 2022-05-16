@@ -1,0 +1,12 @@
+com\controlador\controlador.class
+com\controlador\controladorMedico.class
+com\dao\MedicoDAO.class
+com\configuracion\Conexion.class
+com\dao\PacienteDAO.class
+com\dao\UsuarioDAO.class
+com\controlador\controladorPaciente.class
+com\modelo\Usuario.class
+com\modelo\Paciente.class
+com\modelo\Cita.class
+com\dao\CitaDAO.class
+com\modelo\Medico.class
