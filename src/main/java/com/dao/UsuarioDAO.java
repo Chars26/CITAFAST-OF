@@ -96,7 +96,7 @@ public class UsuarioDAO {
 
     public boolean registrarPaciente(Paciente p) {
         try {
-                String sql = "insert into paciente(Nombre Completo, Tipo Documento, Numero Documento, Telefono, Correo, Contraseña) values(?,?,?,?,?,?)";
+                String sql = "insert into `paciente`(`Nombre Completo`, `Tipo Documento`, `Numero Documento`, `Telefono`, `Correo`, `Contraseña`) values(?,?,?,?,?,?)";
                 con = conexion.getConexion();
                 preparedStatement = con.prepareStatement(sql);
                 preparedStatement.setString(1, p.getNombreCompleto());

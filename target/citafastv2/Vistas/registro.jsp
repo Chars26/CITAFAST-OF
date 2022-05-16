@@ -3,7 +3,6 @@
     Created on : 3/05/2022, 04:35:36 PM
     Author     : santi
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -51,16 +50,22 @@
                     </form>
                     
                     <!--Register-->
-                    <form action="" class="formulario__register">
+                    <form action="${pageContext.request.contextPath}/controlador?accion=registrar" method="POST" class="formulario__register">
+                        <input name="perfil" value="Paciente" type="hidden"/>
                         <h2>Regístrarse</h2>
-                        <input type="text" placeholder="Nombre Completo">
-                        <input type="text" placeholder="Correo Electronico">
-                        <input type="text" placeholder="Identificación">
-                        <input type="password" placeholder="Contraseña">
-                        <button>Regístrarse</button>
+                        <input type="text" name="nombreCompleto" placeholder="Nombre Completo">
+                        <input type="text" name="tipoDocumento" placeholder="Tipo de Documento">
+                        <input type="text" name="numeroDocumento"  placeholder="Identificación">
+                        <input type="text" name="telefono"  placeholder="Telefono">
+                        <input type="text" name="correo" placeholder="Correo Electronico">    
+                        <input type="password" name="contrasena" placeholder="Contraseña">
+                         
+                        <input class="btn btn-success" type="submit">
                         <br><br>
                         <a href="../index.jsp">Regresar a Inicio</a>
                     </form>
+                        
+                        
                 </div>
             </div>
 

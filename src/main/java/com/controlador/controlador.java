@@ -14,6 +14,7 @@ import com.dao.UsuarioDAO;
 import com.modelo.Cita;
 import com.modelo.Medico;
 import com.modelo.Paciente;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -86,7 +87,7 @@ public class controlador extends HttpServlet {
                 break;
 
             case "registrar":
-                perfil = request.getParameter("perfil");
+                perfil = "Paciente";
                 boolean validacion;
                 if (perfil == "Paciente") {
                     p = new Paciente();
@@ -109,7 +110,7 @@ public class controlador extends HttpServlet {
                     m = new Medico();
                     m.setNombreCompleto(request.getParameter("nombreCompleto"));
                     m.setEspecialidad(request.getParameter("especialidad"));
-                    m.setSede(request.getParameter("sede"));
+//                    m.setSede(request.getParameter("sede"));
                     m.setCorreo(request.getParameter("correo"));
                     m.setContrasena(request.getParameter("contrasena"));
                     validacion = udao.registrarMedico(m);
@@ -124,15 +125,16 @@ public class controlador extends HttpServlet {
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
 
+                
+                
             //** PedirCita()
             case "agregarCita":
                 c = new Cita();
                 c.setNombreCompleto(request.getParameter("nombreCompleto"));
                 c.setIdentificacion(request.getParameter("identificacion"));
-                c.setSede(request.getParameter("sede"));
-                String fecha = request.getParameter("fecha");
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
-                c.setFecha(formato.parse(fecha));
+//                c.setSede(request.getParameter("sede"));
+                c.setFecha(request.getParameter("fecha"));
+                //JOptionPane.showMessageDialog(null, request.getParameter("fecha"));
                 p = new Paciente();
                 m = new Medico();
                 p.setIdPaciente(Integer.parseInt(request.getParameter("idPaciente")));
@@ -147,20 +149,18 @@ public class controlador extends HttpServlet {
                 }
                 request.setAttribute("citas", citas);
                 //colocar la direccion a donde dirigir despues de
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.getRequestDispatcher("Vistas/vistaPac.jsp").forward(request, response);
                 break;
 
             //** EstadoCita()
             //** CambiarEstadoCita()
             case "editarCita":
                 c = new Cita();
-                c.setIdCita(Integer.parseInt(request.getParameter("idCita")));
                 c.setNombreCompleto(request.getParameter("nombreCompleto"));
                 c.setIdentificacion(request.getParameter("identificacion"));
-                c.setSede(request.getParameter("sede"));
-                String fecha2 = request.getParameter("fecha");
-                SimpleDateFormat formato2 = new SimpleDateFormat("dd/MM/yyyy"); 
-                c.setFecha(formato2.parse(fecha2));
+//                c.setSede(request.getParameter("sede"));
+                c.setFecha(request.getParameter("fecha"));
+                //JOptionPane.showMessageDialog(null, request.getParameter("fecha"));
                 p = new Paciente();
                 m = new Medico();
                 p.setIdPaciente(Integer.parseInt(request.getParameter("idPaciente")));
@@ -183,6 +183,13 @@ public class controlador extends HttpServlet {
                 //colocar la direccion a donde dirigir despues de
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
+                
+            case "solicitarCita":
+                List <Medico> medico = mdao.getMedicos();
+                request.setAttribute("medicos", medico);
+                request.getRequestDispatcher("Vistas/solCita.jsp").forward(request, response);
+                break;
+                
             
         }
 

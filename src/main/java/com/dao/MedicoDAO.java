@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import com.configuracion.Conexion;
 import com.modelo.Medico;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MedicoDAO {
     //creamos las variables para conectar la base de datos
@@ -43,5 +45,35 @@ public class MedicoDAO {
         }
 
         return null;
+    }
+    
+     public List<Medico> getMedicos() {
+        List<Medico> medicos = new ArrayList<>();
+        try {
+            String sql = "select * from medico";
+            con = conexion.getConexion();
+            preparedStatement = con.prepareStatement(sql);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Medico n = new Medico();
+                n.setIdMedico(rs.getInt(1));
+                n.setNombreCompleto(rs.getString(2));
+                n.setEspecialidad(rs.getString(3));
+                n.setSede(rs.getString(4));
+                n.setCorreo(rs.getString(5));
+                n.setContrasena(rs.getString(6));
+                medicos.add(n);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return medicos;
     }
 }

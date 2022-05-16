@@ -48,7 +48,7 @@
             <li class="nav-item">
               <div class="container-fluid">
                 <a  id="letrasnav" class="navbar-brand" href="#">
-                  <img src="Sin título-4.png" alt="" width="50" height="50" class="">
+                  <img src="https://raw.githubusercontent.com/CharsMA/Marketplace-SCANG/main/Sin%20t%C3%ADtulo-4.png" alt="" width="50" height="50" class="">
                   CITAFAST
                 </a>
               </div>
@@ -64,7 +64,8 @@
             </li>
             
           </ul>
-          <button class="btn btn-outline-primary"  type="button">Pide tu Cita Aqui</button>
+          <a class="btn btn-primary" href="${pageContext.request.contextPath}/controlador?accion=solicitarCita" role="button">Pide tu cita aqui</a>
+          <a class="btn btn-primary" href="${pageContext.request.contextPath}/controlador?accion=solicitarCita" role="button">Ver mis citas</a>
           
         </div>
       </div>
@@ -145,15 +146,7 @@
               </div>
               <!-- Sobre Nosotros-->
               <br><br>
-              <c:forEach var="c" items="${citas}">
-                <ol>
-                <li>${c.getNombreCompleto()}</li>
-                <li>${c.getSede()}</li>
-                <li>${c.getPaciente().getNombreCompleto()}</li>
-                <li>${c.getMedico().getNombreCompleto()}</li>
-              </ol>
-                <hr>
-              </c:forEach>
+     
               <div class="card text-white bg-primary mb-3">
                 <div class="card-body "">
                   <h5 class="card-title-bold">Sobre Nosotros</h5>
